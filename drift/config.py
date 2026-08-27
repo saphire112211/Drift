@@ -27,7 +27,7 @@ class Settings(BaseSettings):
     pubsub_service_account: str | None = None
 
     triage_confidence_threshold: float = Field(default=0.72, ge=0, le=1)
-    github_owner: str = "jawaharlaldoon-bit"
+    github_owner: str = "saphire112211"
     github_repo: str = "Drift"
     github_base_branch: str = "main"
     github_allowed_paths: str = (
@@ -37,6 +37,8 @@ class Settings(BaseSettings):
     slack_webhook_url: str | None = None
     demo_trigger_token: str = "local-demo-token"
     demo_target_url: str = "http://localhost:8082"
+    demo_target_authenticated: bool = False
+    demo_target_audience: str | None = None
     max_patch_bytes: int = Field(default=12_000, ge=256, le=100_000)
     state_backend: str = "memory"
     action_mode: str = "dry-run"

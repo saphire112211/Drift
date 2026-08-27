@@ -2,7 +2,12 @@
 
 from __future__ import annotations
 
+import asyncio
+from collections.abc import Callable
+
 import httpx
+from google.auth.transport.requests import Request
+from google.oauth2.id_token import fetch_id_token
 
 from .config import Settings
 from .models import IncidentEvent, RemediationProposal, ValidationCase, ValidationReport
@@ -27,9 +32,26 @@ REGRESSION_CASES = [
 
 
 class SandboxValidator:
-    def __init__(self, settings: Settings, client: httpx.AsyncClient | None = None) -> None:
+    def __init__(
+        self,
+        settings: Settings,
+        client: httpx.AsyncClient | None = None,
+        token_provider: Callable[[str], str] | None = None,
+    ) -> None:
         self.settings = settings
         self._client = client
+        self._token_provider = token_provider or self._fetch_identity_token
+
+    @staticmethod
+    def _fetch_identity_token(audience: str) -> str:
+        return fetch_id_token(Request(), audience)
+
+    async def _authorization_headers(self) -> dict[str, str]:
+        if not self.settings.demo_target_authenticated:
+            return {}
+        audience = self.settings.demo_target_audience or self.settings.demo_target_url
+        token = await asyncio.to_thread(self._token_provider, audience)
+        return {"Authorization": f"Bearer {token}"}
 
     async def _replay(self, message: str, policy: str) -> dict:
         # Keep the deterministic local path genuinely one-command: production uses the
@@ -47,9 +69,11 @@ class SandboxValidator:
         owned = self._client is None
         client = self._client or httpx.AsyncClient(timeout=60)
         try:
+            headers = await self._authorization_headers()
             response = await client.post(
                 f"{self.settings.demo_target_url.rstrip('/')}/v1/replay",
                 json={"message": message, "policy": policy},
+                headers=headers,
             )
             response.raise_for_status()
             return response.json()

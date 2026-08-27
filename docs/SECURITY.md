@@ -9,6 +9,8 @@ are untrusted. Google Cloud identity and locally configured allow-lists define a
 
 - Pub/Sub uses an OIDC token; production verifies audience, service-account email, and
   verified-email claim.
+- The replay sandbox rejects unauthenticated traffic. The API runtime obtains a Google-signed
+  identity token scoped to the sandbox URL for each validation request.
 - The demo trigger requires a separate bearer secret.
 - GitHub and Slack credentials are read from Secret Manager-backed environment variables.
 - Secrets are redacted from logs, errors, evidence, and UI responses.

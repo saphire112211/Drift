@@ -108,8 +108,10 @@ For live mode:
 5. Deploy with `ACTION_MODE=live`; the health endpoint must report
    `live_actions_ready: true` before recording the demo.
 
-See [deployment](docs/DEPLOYMENT.md), [architecture](docs/ARCHITECTURE.md), and
-[security](docs/SECURITY.md) for the complete production setup.
+The production replay sandbox is private; Drift signs each Cloud Run replay request with its
+dedicated Google service identity. See [deployment](docs/DEPLOYMENT.md),
+[architecture](docs/ARCHITECTURE.md), and [security](docs/SECURITY.md) for the complete
+production setup.
 
 ## Public API
 

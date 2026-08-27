@@ -4,42 +4,52 @@
 
 - A Google Cloud project with billing and Artifact Registry.
 - `gcloud` authenticated to the intended project.
-- The public GitHub `jawaharlaldoon-bit/Drift` repository containing
+- The public GitHub `saphire112211/Drift` repository containing
   `demo_target/prompts/system.md`.
 - A fine-grained GitHub token and Slack incoming webhook.
 
-Enable APIs:
+The repository includes idempotent provisioning scripts. They stop when the project is not
+linked to an active billing account, so deployment cannot silently move to a different,
+card-backed project.
 
-```bash
-gcloud services enable run.googleapis.com cloudbuild.googleapis.com \
-  artifactregistry.googleapis.com secretmanager.googleapis.com \
-  firestore.googleapis.com pubsub.googleapis.com aiplatform.googleapis.com \
-  logging.googleapis.com
+Provision APIs, Artifact Registry, Firestore, and least-privilege build/runtime identities:
+
+```powershell
+pwsh deploy/bootstrap.ps1 -ProjectId data-shard-504916-r8 -Region us-central1
 ```
 
-Create the repository and secrets:
+Load credentials without putting secret values in shell history, files, build substitutions,
+screenshots, or logs. Set them only in the current shell, run the loader, then remove them:
 
-```bash
-gcloud artifacts repositories create drift --repository-format=docker --location=us-central1
-printf '%s' "$GITHUB_TOKEN" | gcloud secrets create drift-github-token --data-file=-
-printf '%s' "$SLACK_WEBHOOK_URL" | gcloud secrets create drift-slack-webhook --data-file=-
-printf '%s' "$DEMO_TRIGGER_TOKEN" | gcloud secrets create drift-demo-trigger --data-file=-
+```powershell
+$env:DRIFT_GITHUB_TOKEN = '<fine-grained token>'
+$env:DRIFT_SLACK_WEBHOOK_URL = '<channel webhook>'
+$env:DRIFT_DEMO_TRIGGER_TOKEN = '<random bearer secret>'
+pwsh deploy/set-secrets.ps1 -ProjectId data-shard-504916-r8
+Remove-Item Env:DRIFT_GITHUB_TOKEN,Env:DRIFT_SLACK_WEBHOOK_URL,Env:DRIFT_DEMO_TRIGGER_TOKEN
 ```
 
-Never paste these values into Cloud Build substitutions or committed files.
+The GitHub token must be restricted to `saphire112211/Drift` with Contents, Issues, and Pull
+Requests write permissions. The Slack webhook must be restricted to the demo incident
+channel.
 
 ## Deploy
 
 The deployment targets Google Cloud project `data-shard-504916-r8` and the repository
 substitutions are already configured. Run:
 
-```bash
-gcloud builds submit --config deploy/cloudbuild.yaml
+```powershell
+gcloud builds submit --config deploy/cloudbuild.yaml `
+  --service-account projects/data-shard-504916-r8/serviceAccounts/drift-build@data-shard-504916-r8.iam.gserviceaccount.com
 pwsh deploy/configure-events.ps1 -ProjectId data-shard-504916-r8 -Region us-central1
 ```
 
 The configuration script creates the event and dead-letter topics, an OIDC push identity,
 the authenticated subscription, and the required Cloud Run invoker binding.
+
+`drift-demo-target` is private. `drift-api` obtains a Google-signed identity token using its
+dedicated runtime identity for every replay request. The public dashboard shares the API
+service, while Pub/Sub and demo-trigger routes independently enforce authentication.
 
 ## Verify
 
@@ -57,15 +67,28 @@ The health response used in the demo must show:
 - `state_backend: firestore`
 - `action_mode: live`
 - `live_actions_ready: true`
+- `sandbox_authenticated: true`
+
+Run the live proof and duplicate-delivery check:
+
+```powershell
+pwsh deploy/smoke-test.ps1 -ProjectId data-shard-504916-r8 -Region us-central1
+```
 
 After capturing deployment proof, keep the UI available but scale idle services to zero.
 
 ## Cost controls
 
-Both Cloud Run services are deployed with minimum instances `0`; the API is capped at three
-instances and the deterministic replay target at two. Before recording the demo, create a
-billing budget for the project with alerts at 50%, 90%, and 100%, then verify the alert
-recipients in Cloud Billing. Keep the maximum instance caps in `deploy/cloudbuild.yaml`,
+Both Cloud Run services use minimum instances `0`; the API is capped at two instances and
+the replay target at one. Before recording the demo, create a project-scoped USD 150 budget:
+
+```powershell
+pwsh deploy/configure-budget.ps1 -ProjectId data-shard-504916-r8 `
+  -BillingAccountId <credit-backed-account-id> -AmountUsd 150
+```
+
+This creates alerts at 50%, 90%, and 100%. Verify the alert recipients in Cloud Billing.
+Keep the maximum instance caps in `deploy/cloudbuild.yaml`,
 retain the Pub/Sub dead-letter limit of five deliveries, and delete unused Artifact Registry
 images after judging. Never treat a budget as a hard service quota.
 

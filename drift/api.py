@@ -140,6 +140,7 @@ async def healthz():
         "state_backend": settings.state_backend,
         "action_mode": settings.action_mode,
         "live_actions_ready": settings.live_actions_ready,
+        "sandbox_authenticated": settings.demo_target_authenticated,
         "cloud": {
             "project_configured": bool(settings.google_cloud_project),
             "region": settings.google_cloud_location,

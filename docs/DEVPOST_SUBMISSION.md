@@ -18,10 +18,10 @@ stage and external action in Firestore and never merges automatically.
 
 - Gemini 3.5 Flash on Vertex AI
 - Google ADK sequential coordinator
-- Cloud Run services for Drift and the replay sandbox
+- Cloud Run services with separate runtime identities and a private replay sandbox
 - Pub/Sub with OIDC push and a dead-letter topic
 - Firestore state and action receipts
-- Secret Manager and structured Cloud Logging
+- Secret Manager, Vertex AI identity, and structured Cloud Logging
 - GitHub REST API and Slack incoming webhooks
 - FastAPI, React, TypeScript, and Vite
 
@@ -50,5 +50,6 @@ are provided in the repository’s `licence/` folder.
 - [ ] Reproducible README
 - [ ] Public YouTube/Vimeo demo, no longer than four minutes
 - [ ] Visible Cloud Run / Pub/Sub / Vertex AI proof
+- [ ] Live GitHub issue, draft PR, Slack messages, and duplicate-delivery proof
 - [ ] Public build article
 - [ ] Social post with `#AllThingsAgenticHackathon`

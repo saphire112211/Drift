@@ -1,5 +1,7 @@
 from __future__ import annotations
 
+import httpx
+
 from drift.demo import build_demo_incident
 from drift.models import Route
 from drift.reasoning import DeterministicReasoner
@@ -23,3 +25,25 @@ async def test_replay_gate_proves_candidate(settings):
     assert report.before_pass_rate < report.after_pass_rate
     assert report.after_pass_rate == 1.0
     assert len(report.cases) == 4
+
+
+async def test_replay_uses_cloud_run_identity_token_when_enabled(settings):
+    settings.demo_target_authenticated = True
+    settings.demo_target_audience = "https://drift-demo-target.example.run.app"
+    seen: list[httpx.Request] = []
+
+    def handler(request: httpx.Request) -> httpx.Response:
+        seen.append(request)
+        return httpx.Response(200, json={"output": "safe", "safe": True, "latency_ms": 1})
+
+    async with httpx.AsyncClient(transport=httpx.MockTransport(handler)) as client:
+        validator = SandboxValidator(
+            settings,
+            client,
+            token_provider=lambda audience: f"token-for:{audience}",
+        )
+        await validator._replay("message", "policy")
+
+    assert seen[0].headers["Authorization"] == (
+        "Bearer token-for:https://drift-demo-target.example.run.app"
+    )

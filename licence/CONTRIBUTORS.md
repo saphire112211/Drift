@@ -2,7 +2,7 @@
 
 ## Hackathon submitter
 
-- [jawaharlaldoon-bit](https://github.com/jawaharlaldoon-bit) — sole Drift hackathon
+- [saphire112211](https://github.com/saphire112211) — sole Drift hackathon
   submitter and maintainer.
 
 ## Pre-existing contribution record

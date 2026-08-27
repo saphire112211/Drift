@@ -28,7 +28,7 @@ flowchart TB
     api --> claim
     triage & investigate & candidate & policy --> gemini["Gemini 3.5 Flash"]
     claim --> firestore[("Firestore")]
-    replay --> target["drift-demo-target · Cloud Run"]
+    replay -->|"Google OIDC"| target["private drift-demo-target · Cloud Run"]
     issue & pr --> github["GitHub REST API"]
     issue & pr --> slack["Slack webhook"]
     pr --> human["Human review / merge"]
@@ -73,6 +73,11 @@ The production reasoner is an ADK `Workflow` with a deterministic sequential gra
 
 Inputs are explicitly labeled untrusted. ADK outputs are validated against Pydantic
 schemas. No agent receives GitHub, Slack, shell, or Secret Manager credentials.
+
+The API and replay sandbox run as separate service accounts. The sandbox is not public;
+the API obtains a Google-signed identity token with the sandbox URL as its audience. Cloud
+Build also uses a dedicated identity that can deploy services but cannot read runtime
+secrets.
 
 ## Action isolation
 
