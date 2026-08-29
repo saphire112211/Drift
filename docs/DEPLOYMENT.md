@@ -29,6 +29,13 @@ pwsh deploy/set-secrets.ps1 -ProjectId data-shard-504916-r8
 Remove-Item Env:DRIFT_GITHUB_TOKEN,Env:DRIFT_SLACK_WEBHOOK_URL,Env:DRIFT_DEMO_TRIGGER_TOKEN
 ```
 
+For an interactive terminal, load each value through a hidden prompt instead:
+
+```powershell
+pwsh deploy/set-secret-interactive.ps1 -ProjectId data-shard-504916-r8 `
+  -Name drift-github-token
+```
+
 The GitHub token must be restricted to `saphire112211/Drift` with Contents, Issues, and Pull
 Requests write permissions. The Slack webhook must be restricted to the demo incident
 channel.
