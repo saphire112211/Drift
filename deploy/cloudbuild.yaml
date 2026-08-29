@@ -34,6 +34,8 @@ steps:
       - --min-instances=0
       - --max-instances=1
       - --memory=512Mi
+      - --default-url
+      - --ingress=all
       - --no-allow-unauthenticated
       - --quiet
 
@@ -63,6 +65,8 @@ steps:
           --update-secrets "GITHUB_TOKEN=drift-github-token:latest,SLACK_WEBHOOK_URL=drift-slack-webhook:latest,DEMO_TRIGGER_TOKEN=drift-demo-trigger:latest" \
           --min-instances 0 \
           --max-instances 1 \
+          --default-url \
+          --ingress all \
           --memory 1Gi \
           --concurrency 20 \
           --timeout 300 \

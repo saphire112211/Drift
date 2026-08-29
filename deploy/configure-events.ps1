@@ -35,7 +35,8 @@ gcloud run services add-iam-policy-binding drift-api --project $ProjectId --regi
     --member "serviceAccount:$serviceAccount" --role roles/run.invoker | Out-Null
 
 gcloud run services update drift-api --project $ProjectId --region $Region `
-    --update-env-vars "PUBSUB_AUDIENCE=$apiUrl,PUBSUB_SERVICE_ACCOUNT=$serviceAccount" | Out-Null
+    --update-env-vars "PUBSUB_AUDIENCE=$apiUrl,PUBSUB_SERVICE_ACCOUNT=$serviceAccount" `
+    --default-url --ingress all --min-instances 0 --max-instances 1 | Out-Null
 
 gcloud pubsub subscriptions describe $subscription --project $ProjectId 2>$null
 if ($LASTEXITCODE -ne 0) {
