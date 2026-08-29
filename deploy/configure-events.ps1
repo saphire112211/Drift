@@ -50,6 +50,16 @@ if ($LASTEXITCODE -ne 0) {
         --min-retry-delay 10s `
         --max-retry-delay 120s
 }
+else {
+    gcloud pubsub subscriptions update $subscription --project $ProjectId `
+        --push-endpoint "$apiUrl/v1/events/pubsub" `
+        --push-auth-service-account $serviceAccount `
+        --push-auth-token-audience $apiUrl `
+        --dead-letter-topic $deadLetterTopic `
+        --max-delivery-attempts 5 `
+        --min-retry-delay 10s `
+        --max-retry-delay 120s | Out-Null
+}
 
 gcloud pubsub topics add-iam-policy-binding $deadLetterTopic --project $ProjectId `
     --member "serviceAccount:$pubsubServiceAgent" --role roles/pubsub.publisher | Out-Null

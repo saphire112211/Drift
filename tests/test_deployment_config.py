@@ -27,3 +27,10 @@ def test_provisioning_refuses_a_project_without_active_billing():
     script = (ROOT / "deploy" / "bootstrap.ps1").read_text(encoding="utf-8")
     assert "billingEnabled" in script
     assert "Billing is not enabled" in script
+
+
+def test_event_configuration_repairs_existing_push_subscription():
+    script = (ROOT / "deploy" / "configure-events.ps1").read_text(encoding="utf-8")
+    assert "subscriptions update $subscription" in script
+    assert '--push-endpoint "$apiUrl/v1/events/pubsub"' in script
+    assert "--push-auth-token-audience $apiUrl" in script
