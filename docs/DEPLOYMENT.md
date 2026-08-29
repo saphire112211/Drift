@@ -79,16 +79,26 @@ After capturing deployment proof, keep the UI available but scale idle services 
 
 ## Cost controls
 
-Both Cloud Run services use minimum instances `0` and are capped at one instance. Before
-recording the demo, create a project-scoped USD 150 budget:
+Both Cloud Run services use minimum instances `0` and are capped at one instance. The live
+hackathon billing account is denominated in INR and has INR 14,346.94 of promotional credit.
+Its production safety controls are:
+
+- `Drift Vertex AI safety cap`: INR 10,000 enforced spend cap, scoped to Vertex AI in
+  `data-shard-504916-r8`, with notifications at 50%, 80%, and 100%.
+- `Drift total gross usage alerts`: INR 14,000 project-wide budget that excludes credits
+  from its calculation, with notifications at 25%, 50%, 80%, 90%, and 100%.
+
+Billing-account administrators or Costs Managers can reproduce the project-wide alert
+budget with:
 
 ```powershell
 pwsh deploy/configure-budget.ps1 -ProjectId data-shard-504916-r8 `
-  -BillingAccountId <credit-backed-account-id> -AmountUsd 150
+  -BillingAccountId 0199CF-F58002-E56B60 -Amount 14000 -CurrencyCode INR
 ```
 
-This creates alerts at 25%, 50%, 80%, 90%, and 100%. Verify the alert recipients in Cloud
-Billing.
+This creates alerts at 25%, 50%, 80%, 90%, and 100% of gross usage before credits. Verify
+the alert recipients in Cloud Billing. A principal with only Billing Account User can link
+projects but cannot create budgets; use the billing-owner console in that case.
 Keep the maximum instance caps in `deploy/cloudbuild.yaml`,
 retain the Pub/Sub dead-letter limit of five deliveries, and delete unused Artifact Registry
 images after judging. Never treat a budget as a hard service quota.

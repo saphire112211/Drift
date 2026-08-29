@@ -23,6 +23,7 @@ gcloud services enable `
     cloudbuild.googleapis.com `
     artifactregistry.googleapis.com `
     secretmanager.googleapis.com `
+    billingbudgets.googleapis.com `
     firestore.googleapis.com `
     pubsub.googleapis.com `
     aiplatform.googleapis.com `
