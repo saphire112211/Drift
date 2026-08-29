@@ -18,10 +18,12 @@ if (-not $existing) {
         --display-name $displayName `
         --budget-amount "${AmountUsd}USD" `
         --filter-projects "projects/$projectNumber" `
+        --threshold-rule percent=0.25 `
         --threshold-rule percent=0.5 `
+        --threshold-rule percent=0.8 `
         --threshold-rule percent=0.9 `
         --threshold-rule percent=1.0
 }
 
-Write-Output "Budget alerts are configured for $ProjectId at 50%, 90%, and 100% of USD $AmountUsd."
+Write-Output "Budget alerts are configured for $ProjectId at 25%, 50%, 80%, 90%, and 100% of USD $AmountUsd."
 Write-Output 'Budgets alert; they do not impose a hard spending cap.'

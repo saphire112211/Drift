@@ -79,15 +79,16 @@ After capturing deployment proof, keep the UI available but scale idle services 
 
 ## Cost controls
 
-Both Cloud Run services use minimum instances `0`; the API is capped at two instances and
-the replay target at one. Before recording the demo, create a project-scoped USD 150 budget:
+Both Cloud Run services use minimum instances `0` and are capped at one instance. Before
+recording the demo, create a project-scoped USD 150 budget:
 
 ```powershell
 pwsh deploy/configure-budget.ps1 -ProjectId data-shard-504916-r8 `
   -BillingAccountId <credit-backed-account-id> -AmountUsd 150
 ```
 
-This creates alerts at 50%, 90%, and 100%. Verify the alert recipients in Cloud Billing.
+This creates alerts at 25%, 50%, 80%, 90%, and 100%. Verify the alert recipients in Cloud
+Billing.
 Keep the maximum instance caps in `deploy/cloudbuild.yaml`,
 retain the Pub/Sub dead-letter limit of five deliveries, and delete unused Artifact Registry
 images after judging. Never treat a budget as a hard service quota.
