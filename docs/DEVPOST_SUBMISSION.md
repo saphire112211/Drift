@@ -3,7 +3,7 @@
 ## Inspiration
 
 AI failures often happen when a tool returns nothing and the model fills the gap with a
-confident answer. The alert is only the beginning of the work. We wanted an agent that
+confident answer. The alert is only the beginning of the work. I wanted an agent that
 could carry the incident all the way to a safe, testable, human-reviewable resolution.
 
 ## What it does
@@ -14,7 +14,7 @@ a GitHub issue, generate a constrained policy fix, replay the failure and advers
 cases, open a draft pull request when validation passes, and notify Slack. It records every
 stage and external action in Firestore and never merges automatically.
 
-## How we built it
+## How I built it
 
 - Gemini 3.5 Flash on Vertex AI
 - Google ADK sequential coordinator
@@ -43,13 +43,17 @@ are provided in the repository’s `licence/` folder.
 
 ## Submission checklist
 
-- [ ] Taskmaster selected
+- [x] Taskmaster selected
 - [ ] Hosted Operations Room URL
-- [ ] Public repository URL
-- [ ] Architecture diagram
-- [ ] Reproducible README
+- [x] Public repository URL: https://github.com/saphire112211/Drift
+- [x] Architecture diagram
+- [x] Reproducible README
 - [ ] Public YouTube/Vimeo demo, no longer than four minutes
-- [ ] Visible Cloud Run / Pub/Sub / Vertex AI proof
-- [ ] Live GitHub issue, draft PR, Slack messages, and duplicate-delivery proof
+- [x] Visible Cloud Run / Pub/Sub / Vertex AI proof captured in cloud resources and logs
+- [x] Live GitHub issue, draft PR, Slack messages, and duplicate-delivery proof
 - [ ] Public build article
 - [ ] Social post with `#AllThingsAgenticHackathon`
+
+Live proof: [incident issue #2](https://github.com/saphire112211/Drift/issues/2),
+[draft remediation PR #3](https://github.com/saphire112211/Drift/pull/3), and
+[passing repository verification](https://github.com/saphire112211/Drift/actions/runs/33235505790).
