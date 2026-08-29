@@ -54,6 +54,11 @@ pwsh deploy/configure-events.ps1 -ProjectId data-shard-504916-r8 -Region us-cent
 The configuration script creates the event and dead-letter topics, an OIDC push identity,
 the authenticated subscription, and the required Cloud Run invoker binding.
 
+Cloud Run runs in `us-central1`; Gemini 3.5 Flash uses Vertex AI's `global` model endpoint.
+Drift keeps these values separate as `GOOGLE_CLOUD_REGION` and `GOOGLE_CLOUD_LOCATION` so
+the dashboard reports the real service region without sending model calls to an unsupported
+regional endpoint.
+
 `drift-demo-target` is private. `drift-api` obtains a Google-signed identity token using its
 dedicated runtime identity for every replay request. The public dashboard shares the API
 service, while Pub/Sub and demo-trigger routes independently enforce authentication.
@@ -71,6 +76,7 @@ The health response used in the demo must show:
 
 - `reasoning_backend: gemini_adk`
 - `gemini_model: gemini-3.5-flash`
+- `cloud.model_location: global`
 - `state_backend: firestore`
 - `action_mode: live`
 - `live_actions_ready: true`

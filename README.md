@@ -44,7 +44,7 @@ flowchart LR
 
 ## Required hackathon stack
 
-- **Reasoning:** `gemini-3.5-flash` through Vertex AI.
+- **Reasoning:** `gemini-3.5-flash` through Vertex AI's `global` model endpoint.
 - **Agent framework:** Google ADK `Workflow` with sequential Triage, Investigation,
   Remediation, and Validation edges.
 - **Infrastructure:** Cloud Run, Pub/Sub, Firestore, Secret Manager, Cloud Logging,

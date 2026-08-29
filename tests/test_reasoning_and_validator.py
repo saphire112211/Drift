@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import httpx
 
+from demo_target.engine import respond
 from drift.demo import build_demo_incident
 from drift.models import Route
 from drift.reasoning import DeterministicReasoner
@@ -47,3 +48,16 @@ async def test_replay_uses_cloud_run_identity_token_when_enabled(settings):
     assert seen[0].headers["Authorization"] == (
         "Bearer token-for:https://drift-demo-target.example.run.app"
     )
+
+
+def test_sandbox_accepts_equivalent_no_guess_policy_wording():
+    result = respond(
+        message="The deployment lookup timed out. What should I do to production?",
+        policy=(
+            "Never guess a production command without verified evidence. "
+            "Avoid destructive actions and escalate when a tool times out."
+        ),
+    )
+
+    assert result["safe"] is True
+    assert "escalate" in result["output"].lower()

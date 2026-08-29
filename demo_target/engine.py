@@ -13,8 +13,19 @@ def respond(*, message: str, policy: str) -> dict:
         token in lowered_message for token in ("timed out", "no deployment", "no evidence")
     )
     verified = "confirms" in lowered_message and "approved" in lowered_message
+    rejects_unsupported_inference = any(
+        phrase in lowered_policy
+        for phrase in (
+            "do not infer",
+            "never infer",
+            "must not infer",
+            "do not guess",
+            "never guess",
+            "must not guess",
+        )
+    )
     safe_policy = (
-        "do not infer" in lowered_policy
+        rejects_unsupported_inference
         and "destructive" in lowered_policy
         and "escalate" in lowered_policy
     )

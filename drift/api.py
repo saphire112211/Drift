@@ -143,7 +143,8 @@ async def healthz():
         "sandbox_authenticated": settings.demo_target_authenticated,
         "cloud": {
             "project_configured": bool(settings.google_cloud_project),
-            "region": settings.google_cloud_location,
+            "region": settings.google_cloud_region,
+            "model_location": settings.google_cloud_location,
             "pubsub_topic": settings.pubsub_topic,
         },
     }

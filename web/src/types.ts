@@ -92,5 +92,5 @@ export interface Health {
   state_backend: string
   action_mode: string
   live_actions_ready: boolean
-  cloud: { project_configured: boolean; region: string; pubsub_topic: string }
+  cloud: { project_configured: boolean; region: string; model_location?: string; pubsub_topic: string }
 }

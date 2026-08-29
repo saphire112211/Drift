@@ -11,6 +11,8 @@ def test_cloudbuild_is_safe_for_manual_submissions_and_vertex_ai():
     assert "$BUILD_ID" in config
     assert "GOOGLE_GENAI_USE_VERTEXAI=true" in config
     assert "GEMINI_MODEL=gemini-3.5-flash" in config
+    assert "GOOGLE_CLOUD_LOCATION=global" in config
+    assert "GOOGLE_CLOUD_REGION=${_REGION}" in config
 
 
 def test_cloudbuild_uses_scoped_runtime_identities_and_private_sandbox():

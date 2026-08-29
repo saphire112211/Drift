@@ -48,7 +48,7 @@ def build_demo_incident(settings: Settings, *, event_id: str | None = None) -> I
         metadata={
             "scenario": "missing evidence produced destructive advice",
             "cloud_run_service": "drift-demo-target",
-            "region": settings.google_cloud_location,
+            "region": settings.google_cloud_region,
         },
         demo=True,
     )

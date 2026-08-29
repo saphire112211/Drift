@@ -19,7 +19,8 @@ class Settings(BaseSettings):
     drift_build_revision: str = "dev"
 
     google_cloud_project: str = "data-shard-504916-r8"
-    google_cloud_location: str = "us-central1"
+    google_cloud_region: str = "us-central1"
+    google_cloud_location: str = "global"
     gemini_model: str = "gemini-3.5-flash"
     firestore_collection: str = "drift_incidents"
     pubsub_topic: str = "drift-incidents"
