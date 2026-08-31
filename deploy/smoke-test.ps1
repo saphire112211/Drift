@@ -11,7 +11,7 @@ $apiUrl = gcloud run services describe drift-api `
     --format 'value(status.url)'
 if (-not $apiUrl) { throw 'drift-api is not deployed.' }
 
-$health = Invoke-RestMethod -Uri "$apiUrl/healthz"
+$health = Invoke-RestMethod -Uri "$apiUrl/v1/health"
 if (
     $health.reasoning_backend -ne 'gemini_adk' -or
     $health.state_backend -ne 'firestore' -or

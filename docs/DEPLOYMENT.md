@@ -69,7 +69,7 @@ service, while Pub/Sub and demo-trigger routes independently enforce authenticat
 gcloud run services describe drift-api --region us-central1
 gcloud run services describe drift-demo-target --region us-central1
 gcloud pubsub topics describe drift-incidents
-curl "$(gcloud run services describe drift-api --region us-central1 --format='value(status.url)')/healthz"
+curl "$(gcloud run services describe drift-api --region us-central1 --format='value(status.url)')/v1/health"
 ```
 
 The health response used in the demo must show:

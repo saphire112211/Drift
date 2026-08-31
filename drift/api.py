@@ -128,6 +128,7 @@ async def event_stream():
 
 
 @app.get("/healthz")
+@app.get("/v1/health")
 async def healthz():
     settings = get_settings()
     return {

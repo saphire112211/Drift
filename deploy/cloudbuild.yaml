@@ -37,6 +37,7 @@ steps:
       - --default-url
       - --ingress=all
       - --no-allow-unauthenticated
+      - --invoker-iam-check
       - --quiet
 
   - name: gcr.io/google.com/cloudsdktool/cloud-sdk
@@ -71,6 +72,7 @@ steps:
           --concurrency 20 \
           --timeout 300 \
           --allow-unauthenticated \
+          --no-invoker-iam-check \
           --quiet
 
 images:

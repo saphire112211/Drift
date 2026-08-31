@@ -21,6 +21,15 @@ def test_healthz_does_not_expose_secrets():
     assert "demo_trigger_token" not in serialized
 
 
+def test_cloud_health_alias_does_not_expose_secrets():
+    response = TestClient(app).get("/v1/health")
+    assert response.status_code == 200
+    serialized = response.text.lower()
+    assert "github_token" not in serialized
+    assert "slack_webhook" not in serialized
+    assert "demo_trigger_token" not in serialized
+
+
 def test_demo_trigger_requires_token():
     response = TestClient(app).post("/v1/demo/incidents", json={})
     assert response.status_code == 401

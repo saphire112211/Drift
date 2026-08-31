@@ -28,7 +28,7 @@ stage and external action in Firestore and never merges automatically.
 ## Challenges and learnings
 
 The hard part was not generating a patch; it was making autonomous action safe and
-repeatable. We separated model reasoning from tool authority, added repository/path/hash
+repeatable. I separated model reasoning from tool authority, added repository/path/hash
 constraints, made event and action identities durable, and required live replay evidence
 before Drift can create a draft PR.
 
@@ -44,7 +44,7 @@ are provided in the repository’s `licence/` folder.
 ## Submission checklist
 
 - [x] Taskmaster selected
-- [ ] Hosted Operations Room URL
+- [x] Hosted Operations Room URL: https://drift-api-gkloebbadq-uc.a.run.app/
 - [x] Public repository URL: https://github.com/saphire112211/Drift
 - [x] Architecture diagram
 - [x] Reproducible README
@@ -56,4 +56,4 @@ are provided in the repository’s `licence/` folder.
 
 Live proof: [incident issue #2](https://github.com/saphire112211/Drift/issues/2),
 [draft remediation PR #3](https://github.com/saphire112211/Drift/pull/3), and
-[passing repository verification](https://github.com/saphire112211/Drift/actions/runs/33235505790).
+[passing repository verification](https://github.com/saphire112211/Drift/actions/runs/33235605003).

@@ -21,6 +21,7 @@ async def replay(request: ReplayRequest):
 
 
 @app.get("/healthz")
+@app.get("/v1/health")
 async def healthz():
     return {"ok": True, "service": "drift-demo-target", "deterministic": True}
 

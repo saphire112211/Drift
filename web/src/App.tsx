@@ -79,7 +79,7 @@ function App() {
   }, [])
 
   useEffect(() => {
-    Promise.all([refreshIncidents(), getJson<Health>('/healthz').then(setHealth)]).catch((err) =>
+    Promise.all([refreshIncidents(), getJson<Health>('/v1/health').then(setHealth)]).catch((err) =>
       setError(err.message),
     )
   }, [refreshIncidents])

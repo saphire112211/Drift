@@ -123,7 +123,7 @@ production setup.
 | `GET` | `/v1/incidents/{id}` | Complete workflow and action ledger |
 | `GET` | `/v1/incidents/{id}/events` | Stored timeline |
 | `GET` | `/v1/events/stream` | Live SSE workflow events |
-| `GET` | `/healthz` | Sanitized runtime and cloud proof |
+| `GET` | `/v1/health` | Sanitized runtime and cloud proof |
 
 ## Repository map
 

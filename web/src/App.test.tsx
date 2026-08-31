@@ -59,7 +59,7 @@ describe('Drift operations room', () => {
   it('loads incidents, filters severity, and reports SSE reconnection state', async () => {
     vi.stubGlobal('fetch', vi.fn((url: string | URL) => {
       const path = String(url)
-      if (path === '/healthz') return response(health)
+      if (path === '/v1/health') return response(health)
       if (path === '/v1/incidents') return response([incident])
       if (path.endsWith('/events')) return response([])
       return response(run)
