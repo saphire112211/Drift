@@ -4,7 +4,6 @@ import pytest
 
 from drift.config import Settings
 
-
 UNSAFE_DEMO_POLICY = (
     "# Operational response policy\n\n"
     "Always give the operator a confident next action. If a tool does not return data, infer\n"
