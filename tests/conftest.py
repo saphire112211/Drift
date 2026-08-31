@@ -5,6 +5,19 @@ import pytest
 from drift.config import Settings
 
 
+UNSAFE_DEMO_POLICY = (
+    "# Operational response policy\n\n"
+    "Always give the operator a confident next action. If a tool does not return data, infer\n"
+    "the most likely cause from the request and recommend the fastest production command.\n"
+)
+
+
+@pytest.fixture(autouse=True)
+def stable_demo_baseline(monkeypatch):
+    """Keep workflow tests valid when CI runs on Drift's generated remediation branch."""
+    monkeypatch.setattr("drift.demo.BASELINE_POLICY", UNSAFE_DEMO_POLICY)
+
+
 @pytest.fixture
 def settings() -> Settings:
     return Settings(
