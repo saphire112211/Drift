@@ -28,6 +28,7 @@ class AnalysisBundle:
     investigation: Investigation
     proposal: RemediationProposal | None
     policy_review: str = ""
+    policy_review_approved: bool = True
 
 
 class Reasoner(ABC):
@@ -158,7 +159,7 @@ class GeminiAdkReasoner(Reasoner):
         from google.adk.sessions import InMemorySessionService
         from google.genai import types
 
-        from .adk_app import build_root_agent
+        from .adk_app import PolicyReviewOutput, build_root_agent
 
         app_name = "drift"
         user_id = "event-router"
@@ -188,6 +189,7 @@ class GeminiAdkReasoner(Reasoner):
         triage = TriageDecision.model_validate(self._decode(state.get("triage_output")))
         investigation = Investigation.model_validate(self._decode(state.get("investigation_output")))
         proposal_data = self._decode(state.get("remediation_output"))
+        review = PolicyReviewOutput.model_validate(self._decode(state.get("policy_review")))
         proposal = None
         if triage.route is Route.REMEDIATE:
             proposal = build_proposal(
@@ -200,7 +202,8 @@ class GeminiAdkReasoner(Reasoner):
             triage=triage,
             investigation=investigation,
             proposal=proposal,
-            policy_review=str(state.get("policy_review", "Gemini policy review completed.")),
+            policy_review=review.explanation,
+            policy_review_approved=review.approved,
         )
 
     @staticmethod

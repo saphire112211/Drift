@@ -4,6 +4,7 @@ from drift.demo import build_demo_incident
 from drift.events import EventBus
 from drift.integrations import GitHubClient, IntegrationError, SlackClient
 from drift.models import ValidationReport, WorkflowStage
+from drift.reasoning import DeterministicReasoner
 from drift.store import MemoryIncidentStore
 from drift.workflow import DriftWorkflow
 
@@ -77,6 +78,26 @@ async def test_failed_validation_blocks_branch_and_pr(settings):
     assert "github_branch_commit" not in kinds
     assert "github_draft_pr" not in kinds
     assert kinds.count("slack_final") == 1
+
+
+class RejectedPolicyReviewReasoner(DeterministicReasoner):
+    async def analyze(self, event):
+        analysis = await super().analyze(event)
+        analysis.policy_review = "Candidate failed independent policy review."
+        analysis.policy_review_approved = False
+        return analysis
+
+
+async def test_rejected_policy_review_blocks_branch_and_pr(settings):
+    run, _ = await workflow(settings, reasoner=RejectedPolicyReviewReasoner()).process(
+        build_demo_incident(settings, event_id="policy-review-blocked")
+    )
+    assert run.stage is WorkflowStage.FAILED
+    assert run.issue_url is not None
+    assert run.pull_request_url is None
+    kinds = [action.action_kind for action in run.actions]
+    assert "github_branch_commit" not in kinds
+    assert "github_draft_pr" not in kinds
 
 
 class FailingSlack(SlackClient):

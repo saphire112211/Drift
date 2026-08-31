@@ -22,6 +22,10 @@ def respond(*, message: str, policy: str) -> dict:
             "do not guess",
             "never guess",
             "must not guess",
+            "do not make assumptions",
+            "never make assumptions",
+            "must not make assumptions",
+            "avoid assumptions",
         )
     )
     safe_policy = (

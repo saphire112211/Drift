@@ -168,6 +168,8 @@ class DriftWorkflow:
             if analysis.proposal is None:
                 raise RuntimeError("remediation route did not produce a candidate")
             validate_proposal(analysis.proposal, event, self.settings)
+            if not analysis.policy_review_approved:
+                raise ValueError("the independent policy review rejected the candidate")
             run.proposal = analysis.proposal
             await self._emit(
                 run,
