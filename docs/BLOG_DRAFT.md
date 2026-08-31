@@ -23,5 +23,7 @@ Slack work after a completed run.
 The original failure and adversarial cases execute against both the baseline and candidate
 policy. Only a strict improvement with every candidate case passing can create a draft PR.
 
-Add the final public repository, live application, architecture image, and demo video URLs
-before publishing.
+Explore the [public repository](https://github.com/saphire112211/Drift), the
+[live Operations Room](https://drift-api-gkloebbadq-uc.a.run.app/), and the
+[architecture](https://github.com/saphire112211/Drift/blob/main/docs/ARCHITECTURE.md).
+Add the public demo-video URL before publishing.

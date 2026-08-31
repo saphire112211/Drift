@@ -6,7 +6,8 @@
 leaves an engineer to reconstruct the evidence, write a ticket, draft a safe change, test
 it, and notify the team. Drift completes that workflow.”
 
-Show the empty Operations Room and the four-step Event → Triage → Replay → Draft PR strip.
+Show the Operations Room, incident queue, and four-step Event → Triage → Replay → Draft PR
+strip.
 
 ## 0:30–0:55 — Unedited trigger and cloud proof
 

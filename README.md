@@ -8,6 +8,8 @@ gap with Gemini 3.5 Flash and Google ADK, creates a GitHub incident, produces a 
 candidate fix, proves the fix through live replay, opens a draft pull request, and posts
 the result to Slack. Drift never merges or deploys production changes.
 
+**Live Operations Room:** https://drift-api-gkloebbadq-uc.a.run.app/
+
 ## Why Drift exists
 
 AI systems commonly fail at the boundary between a model and its tools. A timeout or empty

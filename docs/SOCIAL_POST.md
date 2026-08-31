@@ -4,6 +4,8 @@ pull request, and Slack handoff—while keeping merge authority with a human.
 
 Built with Gemini 3.5 Flash, Google ADK, Cloud Run, Pub/Sub, and Firestore.
 
-[LIVE URL] [DEMO VIDEO] [GitHub](https://github.com/saphire112211/Drift)
+[Live Operations Room](https://drift-api-gkloebbadq-uc.a.run.app/)
+[DEMO VIDEO]
+[GitHub](https://github.com/saphire112211/Drift)
 
 #AllThingsAgenticHackathon

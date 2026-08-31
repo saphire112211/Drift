@@ -46,14 +46,14 @@ are provided in the repository’s `licence/` folder.
 - [x] Taskmaster selected
 - [x] Hosted Operations Room URL: https://drift-api-gkloebbadq-uc.a.run.app/
 - [x] Public repository URL: https://github.com/saphire112211/Drift
-- [x] Architecture diagram
+- [x] Architecture diagram: https://github.com/saphire112211/Drift/blob/main/docs/ARCHITECTURE.md
 - [x] Reproducible README
 - [ ] Public YouTube/Vimeo demo, no longer than four minutes
 - [x] Visible Cloud Run / Pub/Sub / Vertex AI proof captured in cloud resources and logs
 - [x] Live GitHub issue, draft PR, Slack messages, and duplicate-delivery proof
-- [ ] Public build article
-- [ ] Social post with `#AllThingsAgenticHackathon`
+- [ ] Optional bonus: public build article
+- [ ] Optional bonus: social post with `#AllThingsAgenticHackathon`
 
-Live proof: [incident issue #2](https://github.com/saphire112211/Drift/issues/2),
-[draft remediation PR #3](https://github.com/saphire112211/Drift/pull/3), and
-[passing repository verification](https://github.com/saphire112211/Drift/actions/runs/33235605003).
+Live proof: [incident issue #5](https://github.com/saphire112211/Drift/issues/5),
+[draft remediation PR #6](https://github.com/saphire112211/Drift/pull/6), and
+[passing repository verification](https://github.com/saphire112211/Drift/actions/runs/33347307704).
